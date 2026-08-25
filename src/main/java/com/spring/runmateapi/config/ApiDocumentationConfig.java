@@ -11,9 +11,9 @@ public class ApiDocumentationConfig {
     public OpenAPI apiDocumentation() {
         return new OpenAPI().info(
                 new Info()
-                        .title("TODO List API")
+                        .title("Runmate API")
                         .version("1.0")
-                        .description("Spring Boot를 이용한 TODO List API 문서")
+                        .description("Spring Boot를 이용한 Runmate API 문서")
         );
     }
 }
