@@ -38,5 +38,27 @@ KH정보교육원 세미 프로젝트
 | 후기 관리    | 후기 수정       | 후기를 작성한 회원은 자신의 후기를 수정할 수 있다.                                   | REV-003 |  |
 | 후기 관리    | 후기 삭제       | 후기를 작성한 회원은 자신의 후기를 삭제할 수 있다.                                   | REV-004 |  |
 
+## REST API 명세서
+| 번호 | HTTP Method | 매핑 주소                                        | 설명                 |
+| -: | :---------: | -------------------------------------------- | ------------------ |
+| 1  |     POST    | `/runmate/members`                           | 회원가입               |
+| 2  |     POST    | `/runmate/members/login`                     | 회원 로그인             |
+| 3  |     POST    | `/runmate/members/logout`                    | 회원 로그아웃            |
+| 4  |     GET     | `/runmate/members/{memberid}`                        | 마이페이지 조회      |
+| 5  |     PUT     | `/runmate/members/{memberid}`                        | 마이페이지 수정      |
+| 6  |    DELETE   | `/runmate/members/{memberid}`                        | 회원 탈퇴         |
+| 7  |     GET     | `/runmate/runnings`                          | 러닝 모임 전체 목록 조회     |
+| 8  |     POST    | `/runmate/runnings`                          | 러닝 모임 등록           |
+| 9  |     GET     | `/runmate/runnings/{runningId}`              | 러닝 모임 상세 조회     |
+| 10 |     PUT     | `/runmate/runnings/{runningId}`              |  러닝 모임 수정        |
+| 11 |    DELETE   | `/runmate/runnings/{runningId}`              |  러닝 모임 삭제        |
+| 12 |     GET     | `/runmate/runnings/{runningId}/participants` | 러닝 모임 참가자 조회    |
+| 13 |     POST    | `/runmate/runnings/{runningId}/participants` | 러닝 모임 참가        |
+| 14 |    DELETE   | `/runmate/runnings/{runningId}/participants` | 러닝 모임 참가 취소     |
+| 15 |     GET     | `/runmate/runnings/{runningId}/reviews`      | 러닝 모임 후기 조회     |
+| 16 |     POST    | `/runmate/runnings/{runningId}/reviews`      | 러닝 모임 후기 등록     |
+| 17 |     PUT     | `/runmate/reviews/{reviewId}`                | 후기 수정              |
+| 18 |    DELETE   | `/runmate/reviews/{reviewId}`                | 후기 삭제              |
+
 
 
