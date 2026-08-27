@@ -11,7 +11,7 @@ import java.util.Map;
 
 public class JWTUtil {
     // JWT 서명에 사용할 비밀키
-    private static final String SECRET_KEY = "springboot-jwt-secret-key-for-mallapi-2026";
+    private static final String SECRET_KEY = "springboot-jwt-secret-key-for-runmateapi-2026";
     // 문자열 비밀키를 HMAC 서명에 사용할 SecretKey 객체로 변환
     private static final SecretKey KEY =
             Keys.hmacShaKeyFor(SECRET_KEY.getBytes(StandardCharsets.UTF_8));
