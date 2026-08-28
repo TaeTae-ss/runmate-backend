@@ -1,5 +1,7 @@
 package com.spring.runmateapi.member.controller;
 
+import com.spring.runmateapi.common.dto.PageRequestDTO;
+import com.spring.runmateapi.common.dto.PageResponseDTO;
 import com.spring.runmateapi.member.dto.LoginDTO;
 import com.spring.runmateapi.member.dto.MemberDTO;
 import com.spring.runmateapi.member.dto.TokenRequestDTO;
@@ -11,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -33,11 +36,31 @@ public class MemberController {
         return ResponseEntity.ok(memberDTO);
     }
 
+    //@PreAuthorize("hasRole('ADMIN')")
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<PageResponseDTO<MemberDTO>> getList(PageRequestDTO pageRequestDTO) {
+        PageResponseDTO<MemberDTO> response = memberService.getList(pageRequestDTO);
+        return ResponseEntity.ok(response);
+    }
+
     @PostMapping
     @Operation(hidden = true)
     public ResponseEntity<Map<String, Long>> register(@RequestBody MemberDTO memberDTO) {
         Long memberId = memberService.register(memberDTO);
         return  ResponseEntity.status(HttpStatus.CREATED).body(Map.of("memberId", memberId));
+    }
+
+    @PutMapping("/{memberId}")
+    public ResponseEntity<Map<String, String>> modify(@PathVariable(name = "memberId") Long memberId, @RequestBody MemberDTO memberDTO) {
+        memberDTO.setMemberId(memberId);
+        memberService.modify(memberDTO);
+        return  ResponseEntity.ok(Map.of("result", "success"));
+    }
+
+    @DeleteMapping("/{memberId}")
+    public ResponseEntity<Map<String, String>> remove(@PathVariable(name = "memberId") Long memberId) {
+        memberService.remove(memberId);
+        return ResponseEntity.ok(Map.of("result","success"));
     }
 
     @PostMapping("/login")

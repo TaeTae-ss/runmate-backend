@@ -1,7 +1,9 @@
 package com.spring.runmateapi.member.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
+import lombok.Setter;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 
@@ -11,11 +13,12 @@ import java.util.List;
 import java.util.Map;
 
 @Getter
-
+@Setter
 public class MemberDTO extends User {
     private Long memberId;
     private String userId;
     private String email;
+    @JsonIgnore
     private String password;
     private String nickname;
     private String phone;
@@ -24,19 +27,53 @@ public class MemberDTO extends User {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate createdAt;
 
-    private List<String> roleNames;
+    private List<String> roleNames = List.of("USER");
 
-    public MemberDTO(Long memberId, String userId,String password, String nickname, String email, String phone, LocalDate createdAt, List<String> roleNames) {
-        // 권한 이름에 "ROLE_" 접두어를 붙인 뒤
-        // Spring Security가 사용하는 SimpleGrantedAuthority 객체로 변환한다.
-        super(userId,password,
-                roleNames == null
-                        ? List.of()
-                        : roleNames.stream()
-                          .map(role ->
-                               new SimpleGrantedAuthority("ROLE_" + role))
-                          .toList()
+    public MemberDTO() {
+        super("temp", "temp", List.of());
+    }
+
+    // 회원가입
+    public MemberDTO(
+            String userId,
+            String password,
+            String nickname,
+            String email,
+            String phone) {
+
+        super(
+                userId,
+                password,
+                List.of(new SimpleGrantedAuthority("ROLE_USER"))
         );
+
+        this.userId = userId;
+        this.password = password;
+        this.nickname = nickname;
+        this.email = email;
+        this.phone = phone;
+        this.roleNames = List.of("USER");
+    }
+
+    // 전체 생성자
+    public MemberDTO(
+            Long memberId,
+            String userId,
+            String password,
+            String nickname,
+            String email,
+            String phone,
+            LocalDate createdAt,
+            List<String> roleNames) {
+
+        super(
+                userId,
+                password,
+                roleNames.stream()
+                        .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
+                        .toList()
+        );
+
         this.memberId = memberId;
         this.userId = userId;
         this.password = password;

@@ -67,6 +67,9 @@ public class Member {
         this.nickname = nickname;
         this.email = email;
         this.phone = phone;
+
+        // 신규 회원은 기본적으로 USER 권한 부여
+        this.roles.add(MemberRole.USER);
     }
 
 
