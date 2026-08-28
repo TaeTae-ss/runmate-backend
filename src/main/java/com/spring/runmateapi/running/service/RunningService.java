@@ -1,0 +1,15 @@
+package com.spring.runmateapi.running.service;
+
+import com.spring.runmateapi.common.dto.PageRequestDTO;
+import com.spring.runmateapi.common.dto.PageResponseDTO;
+import com.spring.runmateapi.running.dto.RunningDTO;
+
+public interface RunningService {
+    Long register(RunningDTO runningDTO);
+    RunningDTO get(Long runningId);
+    void modify(RunningDTO runningDTO);
+    void remove(Long runningId);
+
+    // 페이징 처리
+    PageResponseDTO<RunningDTO> list(PageRequestDTO pageRequestDTO);
+}
