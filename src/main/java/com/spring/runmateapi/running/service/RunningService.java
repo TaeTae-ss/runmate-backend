@@ -9,6 +9,7 @@ public interface RunningService {
     RunningDTO get(Long runningId);
     void modify(RunningDTO runningDTO);
     void remove(Long runningId);
+    void updateStatus(Long runningId, boolean status); //스테이터스 변경 로직
 
     // 페이징 처리
     PageResponseDTO<RunningDTO> list(PageRequestDTO pageRequestDTO);

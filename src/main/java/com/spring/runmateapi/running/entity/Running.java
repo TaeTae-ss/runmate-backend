@@ -73,7 +73,7 @@ public class Running {
         this.createdAt = createdAt;
         this.memberId = memberId;
     }
-
+    // 상태값 변경 CRUD
     public  void changeRunning(String title, String location, String place, LocalDate runDate, String startTime,
                                int runTime, int distance, int maxPeople, String content, boolean status) {
         this.title = title;
@@ -88,4 +88,8 @@ public class Running {
         this.status = status;
     }
 
+    // status(true: 모집중, false: 모집마감)전용 상태값변경로직
+    public void updateStatus(Boolean status) {
+        this.status = status;
+    }
 }

@@ -58,4 +58,14 @@ public class RunningContoller {
         runningService.remove(runningId);
         return ResponseEntity.ok(Map.of("result", "success"));
     }
+    // 상태 변경 (모집중 <-> 모집마감)
+    @PatchMapping("/{runningId}/status")
+    @Operation(hidden = true)
+    public ResponseEntity<Map<String, String>> updateStatus(@PathVariable Long runningId,
+                                                             @RequestBody Map<String, Boolean> request) {
+        Boolean status = request.get("status");
+        runningService.updateStatus(runningId, status);
+        return ResponseEntity.ok(Map.of("result", "success"));
+    }
+
 }
