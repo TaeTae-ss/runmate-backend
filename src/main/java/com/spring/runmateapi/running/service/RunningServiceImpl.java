@@ -11,9 +11,13 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
@@ -53,7 +57,9 @@ public class RunningServiceImpl implements RunningService {
     @Override
     public RunningDTO get(Long runningId) {
         Running running = getRunning(runningId);
-        return runningMapper.toDTO(running); //entity에서 -> DTO 변환
+        RunningDTO runningDTO = runningMapper.toDTO(running); //entity에서 -> DTO 변환
+        runningDTO.setStatus(calculateActualStatus(running)); // 실제 상태로 덮어쓰기
+        return  runningDTO;
     }
 
     //수정
@@ -81,18 +87,41 @@ public class RunningServiceImpl implements RunningService {
         runningRepository.delete(running);
     }
 
+    //시작시간이 지났는지 계산해서 길제 상태를 판다
+    private boolean calculateActualStatus(Running running) {
+        if(!running.isStatus()) {
+            return false; // 이미 모임장이 마감시킨 건 그대로 마감유지
+        }
+        LocalDateTime runDateTime = LocalDateTime.of(
+                running.getRunDate(),
+                LocalTime.parse(running.getStartTime(), DateTimeFormatter.ofPattern("HH:mm"))
+        );
+        return LocalDateTime.now().isBefore(runDateTime); // 시작시간 전이면 true(모집중), 지났으면 false(모집 마감)
+    }
+
+
     //페이징 처리
     @Transactional(readOnly = true)
-
     @Override
     public PageResponseDTO<RunningDTO> list(PageRequestDTO pageRequestDTO) {
         Pageable pageable = pageRequestDTO.getPageable("runningId");
-        Page<Running> runningPage = runningRepository.findAll(pageable);
+        Page<Running> runningPage = runningRepository.searchList(pageRequestDTO, pageable);
 
         List<RunningDTO> runningDTOList = runningPage.getContent()
                 .stream()
-                .map(runningMapper::toDTO)
+                .map(running -> {
+                    RunningDTO runningDTO = runningMapper.toDTO(running);
+                    runningDTO.setStatus(calculateActualStatus(running)); //목록에 똑같이 status값이 반환되게 설정
+                    return  runningDTO;
+                })
                 .toList();
         return new PageResponseDTO<>(runningDTOList, pageRequestDTO, runningPage.getTotalElements());
+    }
+
+    // status변경 처리
+    @Override
+    public void updateStatus(Long runningId, boolean status) {
+        Running running = getRunning(runningId);
+        running.updateStatus(status);
     }
 }
