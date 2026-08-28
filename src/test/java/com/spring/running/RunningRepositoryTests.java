@@ -5,21 +5,19 @@ import com.spring.runmateapi.running.repogitory.RunningRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;
-import org.springframework.boot.jdbc.test.autoconfigure.AutoConfigureTestDatabase;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.test.annotation.Commit;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
-
-@DataJpaTest
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@SpringBootTest
 @Slf4j
-public class RuningRepositoryTests {
+public class RunningRepositoryTests {
     @Autowired
     private RunningRepository runningRepository;
 
@@ -68,9 +66,9 @@ public class RuningRepositoryTests {
                 .status(true)
                 .memberId(2L)
                 .build();
-        Running savedRunning = runningRepository.save(running2);
+        Running savedRunning2 = runningRepository.save(running2);
 
-        printRunning(savedRunning);
+        printRunning(savedRunning2);
 
     }
     @Test
@@ -85,8 +83,9 @@ public class RuningRepositoryTests {
 
     @Test
     @Commit
+    @Transactional
     public void testModify() {
-        Long runningId = 2L;
+        Long runningId = 3L;
         Running running = runningRepository.findById(runningId)
                 .orElseThrow(() ->
                         new IllegalArgumentException(runningId + "번 모임기록이 없습니다."));
@@ -108,7 +107,7 @@ public class RuningRepositoryTests {
     @Test
     @Commit
     public  void testDelete() {
-        Long runningId = 3L;
+        Long runningId = 2L;
         if (runningRepository.existsById(runningId)) {
             runningRepository.deleteById(runningId);
             log.info("{}번 모임을 삭제했습니다.");
