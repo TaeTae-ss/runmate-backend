@@ -6,7 +6,7 @@ KH정보교육원 세미 프로젝트
 |------------|----------|
 | 우태식(조장)        | `회원 및 러닝 참여` |
 |   육현승           | `러닝 모임 및 검색` |
-|                |                |
+
 
 ## 요구분석 정의서
 | 요구사항 구분  | 요구사항명       | 요구사항 상세 설명                                                      | ID      | 비고 |
@@ -31,38 +31,29 @@ KH정보교육원 세미 프로젝트
 | 후기 관리    | 후기 조회       | 사용자는 러닝 모임에 등록된 후기를 조회할 수 있다.                                   | REV-002 |  |
 | 후기 관리    | 후기 수정       | 후기를 작성한 회원은 자신의 후기를 수정할 수 있다.                                   | REV-003 |  |
 | 후기 관리    | 후기 삭제       | 후기를 작성한 회원은 자신의 후기를 삭제할 수 있다.                                   | REV-004 |  |
-| 검색 관리    | 러닝 모임 검색    | 사용자는 검색어를 이용하여 러닝 모임을 검색할 수 있다.                                 | SCH-001 |  |
-| 검색 관리    | 지역별 검색      | 사용자는 지역을 기준으로 러닝 모임을 검색할 수 있다.                                  | SCH-002 |  |
-| 검색 관리    | 날짜별 검색      | 사용자는 러닝 날짜를 기준으로 모임을 검색할 수 있다.                                  | SCH-003 |  |
-| 검색 관리    | 난이도별 검색     | 사용자는 러닝 난이도를 기준으로 모임을 검색할 수 있다.                                 | SCH-004 |  |
-| 검색 관리    | 거리별 검색      | 사용자는 러닝 거리를 기준으로 러닝 모임을 검색할 수 있다.                               | SCH-005 |  |
-| 검색 관리    | 정렬          | 사용자는 등록일 기준으로 모임 목록을 정렬할 수 있다.                                     | SCH-006 |  |
-| 후기 관리    | 후기 등록       | 러닝 모임에 참가한 회원은 러닝 종료 후 후기를 등록할 수 있다.                            | REV-001 |  |
-| 후기 관리    | 후기 조회       | 사용자는 러닝 모임에 등록된 후기를 조회할 수 있다.                                   | REV-002 |  |
-| 후기 관리    | 후기 수정       | 후기를 작성한 회원은 자신의 후기를 수정할 수 있다.                                   | REV-003 |  |
-| 후기 관리    | 후기 삭제       | 후기를 작성한 회원은 자신의 후기를 삭제할 수 있다.                                   | REV-004 |  |
 
 ## REST API 명세서
 | 번호 | HTTP Method | 매핑 주소                                        | 설명                 |
 | -: | :---------: | -------------------------------------------- | ------------------ |
-| 1  |     POST    | `/runmate/members`                           | 회원가입               |
-| 2  |     POST    | `/runmate/members/login`                     | 회원 로그인             |
-| 3  |     POST    | `/runmate/members/logout`                    | 회원 로그아웃            |
-| 4  |     GET     | `/runmate/members/{memberid}`                        | 마이페이지 조회      |
-| 5  |     PUT     | `/runmate/members/{memberid}`                        | 마이페이지 수정      |
-| 6  |    DELETE   | `/runmate/members/{memberid}`                        | 회원 탈퇴         |
-| 7  |     GET     | `/runmate/runnings`                          | 러닝 모임 전체 목록 조회     |
-| 8  |     POST    | `/runmate/runnings`                          | 러닝 모임 등록           |
-| 9  |     GET     | `/runmate/runnings/{runningId}`              | 러닝 모임 상세 조회     |
-| 10 |     PUT     | `/runmate/runnings/{runningId}`              |  러닝 모임 수정        |
-| 11 |    DELETE   | `/runmate/runnings/{runningId}`              |  러닝 모임 삭제        |
-| 12 |     GET     | `/runmate/runnings/{runningId}/participants` | 러닝 모임 참가자 조회    |
-| 13 |     POST    | `/runmate/runnings/{runningId}/participants` | 러닝 모임 참가        |
-| 14 |    DELETE   | `/runmate/runnings/{runningId}/participants` | 러닝 모임 참가 취소     |
-| 15 |     GET     | `/runmate/runnings/{runningId}/reviews`      | 러닝 모임 후기 조회     |
-| 16 |     POST    | `/runmate/runnings/{runningId}/reviews`      | 러닝 모임 후기 등록     |
-| 17 |     PUT     | `/runmate/reviews/{reviewId}`                | 후기 수정              |
-| 18 |    DELETE   | `/runmate/reviews/{reviewId}`                | 후기 삭제              |
+| 1  |     GET     | `/runmate/members`                           | 관리자 회원조회         |
+| 2  |     POST    | `/runmate/members`                           | 회원가입               |
+| 3  |     POST    | `/runmate/members/login`                     | 회원 로그인             |
+| 4  |     POST    | `/runmate/members/logout`                    | 회원 로그아웃            |
+| 5  |     GET     | `/runmate/members/{memberid}`                        | 마이페이지 조회      |
+| 6  |     PUT     | `/runmate/members/{memberid}`                        | 마이페이지 수정      |
+| 7  |    DELETE   | `/runmate/members/{memberid}`                        | 회원 탈퇴         |
+| 8  |     GET     | `/runmate/runnings`                          | 러닝 모임 전체 목록 조회     |
+| 9  |     POST    | `/runmate/runnings`                          | 러닝 모임 등록           |
+| 10  |     GET     | `/runmate/runnings/{runningId}`              | 러닝 모임 상세 조회     |
+| 11 |     PUT     | `/runmate/runnings/{runningId}`              |  러닝 모임 수정        |
+| 12 |    DELETE   | `/runmate/runnings/{runningId}`              |  러닝 모임 삭제        |
+| 13 |     GET     | `/runmate/runnings/{runningId}/participants` | 러닝 모임 참가자 조회    |
+| 14 |     POST    | `/runmate/runnings/{runningId}/participants` | 러닝 모임 참가        |
+| 15 |    DELETE   | `/runmate/runnings/{runningId}/participants` | 러닝 모임 참가 취소     |
+| 16 |     GET     | `/runmate/runnings/{runningId}/reviews`      | 러닝 모임 후기 조회     |
+| 17 |     POST    | `/runmate/runnings/{runningId}/reviews`      | 러닝 모임 후기 등록     |
+| 18 |     PUT     | `/runmate/reviews/{reviewId}`                | 후기 수정              |
+| 19 |    DELETE   | `/runmate/reviews/{reviewId}`                | 후기 삭제              |
 
 
 
