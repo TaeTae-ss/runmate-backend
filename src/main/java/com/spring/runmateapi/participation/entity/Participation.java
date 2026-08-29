@@ -9,13 +9,12 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
-import java.util.function.LongPredicate;
 
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "participation")
-public class participation {
+public class Participation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,7 +31,7 @@ public class participation {
     private LocalDate joinedAt;
 
     @Builder
-    public participation(Long runningId, Long memberId){
+    public Participation(Long runningId, Long memberId){
         this.runningId = runningId;
         this.memberId = memberId;
     }
