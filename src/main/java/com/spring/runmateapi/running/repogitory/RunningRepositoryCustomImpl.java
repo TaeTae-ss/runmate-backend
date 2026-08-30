@@ -37,8 +37,8 @@ public class RunningRepositoryCustomImpl implements RunningRepositoryCustom{
                 .selectFrom(running)
                 .where(builder)
                 .orderBy("oldest".equals(pageRequestDTO.getSort())
-                    ? running.runDate.asc()
-                    : running.runDate.desc())
+                    ? running.createdAt.asc()
+                    : running.createdAt.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
