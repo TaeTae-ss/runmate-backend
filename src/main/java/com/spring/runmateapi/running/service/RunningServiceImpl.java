@@ -5,6 +5,8 @@ import com.spring.runmateapi.common.dto.PageRequestDTO;
 import com.spring.runmateapi.common.dto.PageResponseDTO;
 import com.spring.runmateapi.member.entity.Member;
 import com.spring.runmateapi.member.repository.MemberRepository;
+import com.spring.runmateapi.participation.entity.Participation;
+import com.spring.runmateapi.participation.repository.ParticipationRepository;
 import com.spring.runmateapi.running.dto.RunningDTO;
 import com.spring.runmateapi.running.entity.Running;
 import com.spring.runmateapi.running.mapper.RunningMapper;
@@ -29,6 +31,7 @@ public class RunningServiceImpl implements RunningService {
     private final RunningRepository runningRepository;
     private final RunningMapper runningMapper;
     private final MemberRepository memberRepository;
+    private final ParticipationRepository participationRepository;
 
     @Override
     public Long register(RunningDTO runningDTO) {
@@ -50,6 +53,20 @@ public class RunningServiceImpl implements RunningService {
                 .member(member)
                 .build();
         Running savedRunning = runningRepository.save(running);
+
+        //모임장을 자동으로 참가자에 등록
+        Participation participation = Participation.builder()
+                .running(savedRunning)
+                .member(member)
+                .build();
+        participationRepository.save(participation);
+
+        //등록 직후 정원 체크 (maxPeople=1인 경우 대비)
+        long currentCount = participationRepository.countByRunning_RunningId(savedRunning.getRunningId());
+        if(currentCount >= savedRunning.getMaxPeople()) {
+            savedRunning.updateStatus(false);
+        }
+
         return savedRunning.getRunningId();
     }
 
