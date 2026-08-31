@@ -6,9 +6,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface ParticipationRepository extends JpaRepository<Participation, Long> {
-    boolean existsByRunningIdAndMemberId(Long runningId, Long memberId);
-    long countByRunningId(Long runningId);
-    List<Participation> findByRunningId(Long runningId);
-    List<Participation> findByMemberId(Long memberId);
-    void deleteByRunningIdAndMemberId(Long runningId, Long memberId);
+    boolean existsByRunning_RunningIdAndMember_MemberId(Long runningId, Long memberId);
+    long countByRunning_RunningId(Long runningId);
+    List<Participation> findByRunning_RunningId(Long runningId);
+    List<Participation> findByMember_MemberId(Long memberId);
+    void deleteByRunning_RunningIdAndMember_MemberId(Long runningId, Long memberId);
 }

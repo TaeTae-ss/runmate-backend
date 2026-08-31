@@ -3,6 +3,8 @@ package com.spring.runmateapi.running.service;
 
 import com.spring.runmateapi.common.dto.PageRequestDTO;
 import com.spring.runmateapi.common.dto.PageResponseDTO;
+import com.spring.runmateapi.member.entity.Member;
+import com.spring.runmateapi.member.repository.MemberRepository;
 import com.spring.runmateapi.running.dto.RunningDTO;
 import com.spring.runmateapi.running.entity.Running;
 import com.spring.runmateapi.running.mapper.RunningMapper;
@@ -26,9 +28,13 @@ public class RunningServiceImpl implements RunningService {
 
     private final RunningRepository runningRepository;
     private final RunningMapper runningMapper;
+    private final MemberRepository memberRepository;
 
     @Override
     public Long register(RunningDTO runningDTO) {
+        Member member = memberRepository.findById(runningDTO.getMemberId())
+                .orElseThrow(() -> new EntityNotFoundException(runningDTO.getMemberId() + "번 회원이 존재하지 않습니다."));
+
         //생성자를 이용하여 DTO -> entity로 변환
         Running running = Running.builder()
                 .title(runningDTO.getTitle())
@@ -41,7 +47,7 @@ public class RunningServiceImpl implements RunningService {
                 .maxPeople(runningDTO.getMaxPeople())
                 .content(runningDTO.getContent())
                 .status(runningDTO.isStatus())
-                .memberId(runningDTO.getMemberId())
+                .member(member)
                 .build();
         Running savedRunning = runningRepository.save(running);
         return savedRunning.getRunningId();

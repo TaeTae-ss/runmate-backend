@@ -1,5 +1,7 @@
 package com.spring.runmateapi.review.entity;
 
+import com.spring.runmateapi.member.entity.Member;
+import com.spring.runmateapi.running.entity.Running;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -26,17 +28,19 @@ public class Review {
     @Column(nullable = false)
     private LocalDate createdAt;
 
-    @Column(nullable = false)
-    private Long memberId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id", nullable = false)
+    private Member member;
 
-    @Column(nullable = false)
-    private Long runningId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "running_id", nullable = false)
+    private Running running;
 
-    public Review(int rating, String content, Long memberId, Long runningId) {
+    public Review(int rating, String content, Member member, Running running) {
         this.rating = rating;
         this.content = content;
-        this.memberId = memberId;
-        this.runningId = runningId;
+        this.member = member;
+        this.running = running;
     }
 
     @PrePersist

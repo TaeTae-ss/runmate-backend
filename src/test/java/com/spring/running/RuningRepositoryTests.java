@@ -1,7 +1,10 @@
 package com.spring.running;
 
+import com.spring.runmateapi.member.entity.Member;
+import com.spring.runmateapi.member.repository.MemberRepository;
 import com.spring.runmateapi.running.entity.Running;
 import com.spring.runmateapi.running.repository.RunningRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +26,8 @@ import java.util.List;
 public class RuningRepositoryTests {
     @Autowired
     private RunningRepository runningRepository;
+    @Autowired
+    private MemberRepository memberRepository;
 
     private void printRunning(Running running) {
         log.info("제목: {}", running.getTitle());
@@ -39,39 +44,45 @@ public class RuningRepositoryTests {
     @Test
     @Commit
     public void testInsertRunning() {
-//        Running running = Running.builder()
-//                .title("한강호수공원 급구")
-//                .location("서울")
-//                .place("뚝섬유원지")
-//                .runDate(LocalDate.of(2026, 8, 26))
-//                .startTime("09:00")
-//                .runTime(60)
-//                .distance(5)
-//                .maxPeople(10)
-//                .content("부담없이 같이 뛸사람 구합니다~")
-//                .status(true)
-//                .memberId(1L)
-//                .build();
-//        Running savedRunning = runningRepository.save(running);
-//
-//        printRunning(savedRunning);
+        Member member1 = memberRepository.findById(1L)
+                .orElseThrow(() -> new EntityNotFoundException("회원을 찾을수 없습니다."));
+
+        Member member2 = memberRepository.findById(2L)
+                .orElseThrow(() -> new EntityNotFoundException("회원을 찾을 수 없습니다."));
+
+        Running running = Running.builder()
+                .title("한강호수공원 급구")
+                .location("서울")
+                .place("뚝섬유원지")
+                .runDate(LocalDate.of(2026, 9, 05))
+                .startTime("09:00")
+                .runTime(60)
+                .distance(5)
+                .maxPeople(10)
+                .content("부담없이 같이 뛸사람 구합니다~")
+                .status(true)
+                .member(member1)
+                .build();
+        Running savedRunning = runningRepository.save(running);
+
+        printRunning(savedRunning);
 
         Running running2 = Running.builder()
                 .title("광교호수공원")
                 .location("수원")
                 .place("원천호수광장")
-                .runDate(LocalDate.of(2026, 8, 28))
+                .runDate(LocalDate.of(2026, 9, 05))
                 .startTime("19:30")
                 .runTime(45)
                 .distance(7)
                 .maxPeople(8)
                 .content("퇴근 후 가볍게 야간 러닝 하실분 구합니다.")
                 .status(true)
-                .memberId(2L)
+                .member(member2)
                 .build();
-        Running savedRunning = runningRepository.save(running2);
+        Running savedRunning2 = runningRepository.save(running2);
 
-        printRunning(savedRunning);
+        printRunning(savedRunning2);
 
     }
     @Test

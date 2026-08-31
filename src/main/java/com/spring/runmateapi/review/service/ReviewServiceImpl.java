@@ -1,9 +1,14 @@
 package com.spring.runmateapi.review.service;
 
+import com.spring.runmateapi.member.entity.Member;
+import com.spring.runmateapi.member.repository.MemberRepository;
 import com.spring.runmateapi.review.dto.ReviewDTO;
 import com.spring.runmateapi.review.entity.Review;
 import com.spring.runmateapi.review.mapper.ReviewMapper;
 import com.spring.runmateapi.review.repository.ReviewRepository;
+import com.spring.runmateapi.running.entity.Running;
+import com.spring.runmateapi.running.repository.RunningRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,15 +22,23 @@ public class ReviewServiceImpl implements ReviewService {
 
     private final ReviewRepository reviewRepository;
     private final ReviewMapper reviewMapper;
+    private final MemberRepository memberRepository;
+    private final RunningRepository runningRepository;
 
     @Override
     public Long register(ReviewDTO reviewDTO) {
 
+        Member member = memberRepository.findById(reviewDTO.getMemberId())
+                .orElseThrow(() -> new EntityNotFoundException(reviewDTO.getMemberId() + "번 회원이 존재하지 않습니다."));
+
+        Running running = runningRepository.findById(reviewDTO.getRunningId())
+                .orElseThrow(() -> new EntityNotFoundException(reviewDTO.getRunningId() + "번 모임이 존재하지 않습니다."));
+
         Review review = new Review(
                 reviewDTO.getRating(),
                 reviewDTO.getContent(),
-                reviewDTO.getMemberId(),
-                reviewDTO.getRunningId()
+                member, // Long memberId -> Member 객체
+                running // Long runningId = Running 객체
         );
 
         Review savedReview = reviewRepository.save(review);
@@ -37,7 +50,7 @@ public class ReviewServiceImpl implements ReviewService {
     public List<ReviewDTO> getList(Long runningId) {
 
         List<Review> reviewList =
-                reviewRepository.findByRunningId(runningId);
+                reviewRepository.findByRunning_RunningId(runningId);
 
         return reviewList.stream()
                 .map(reviewMapper::toDTO)

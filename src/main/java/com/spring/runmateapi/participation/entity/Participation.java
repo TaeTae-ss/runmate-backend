@@ -1,6 +1,8 @@
 package com.spring.runmateapi.participation.entity;
 
 
+import com.spring.runmateapi.member.entity.Member;
+import com.spring.runmateapi.running.entity.Running;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -20,19 +22,21 @@ public class Participation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long participationId;
 
-    @Column(name = "running_id", nullable = false)
-    private  Long runningId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "running_id", nullable = false)
+    private Running running;
 
-    @Column(name = "member_id", nullable = false)
-    private Long memberId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id", nullable = false)
+    private Member member;
 
     @Column(name = "joined_at", nullable = false, updatable = false)
     @CreationTimestamp
     private LocalDate joinedAt;
 
     @Builder
-    public Participation(Long runningId, Long memberId){
-        this.runningId = runningId;
-        this.memberId = memberId;
+    public Participation(Running running, Member member){
+        this.running = running;
+        this.member = member;
     }
 }

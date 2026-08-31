@@ -1,6 +1,7 @@
 package com.spring.runmateapi.running.entity;
 
 
+import com.spring.runmateapi.member.entity.Member;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -53,13 +54,14 @@ public class Running {
     @Column(name = "created_at", nullable = false)
     private LocalDate createdAt; //작성일
 
-    @Column(nullable = false)
-    private Long memberId; //대표회원번호
+   @ManyToOne(fetch = FetchType.LAZY)
+   @JoinColumn(name = "member_id", nullable = false)
+   private Member member;
 
     @Builder
     public Running(String title, String location, String place, LocalDate runDate,
                    String startTime, int runTime, int distance, int maxPeople,
-                   String content, boolean status, LocalDate createdAt, Long memberId) {
+                   String content, boolean status, LocalDate createdAt, Member member) {
         this.title = title;
         this.location = location;
         this.place = place;
@@ -71,7 +73,7 @@ public class Running {
         this.content = content;
         this.status = status;
         this.createdAt = createdAt;
-        this.memberId = memberId;
+        this.member = member;
     }
     // 상태값 변경 CRUD
     public  void changeRunning(String title, String location, String place, LocalDate runDate, String startTime,
