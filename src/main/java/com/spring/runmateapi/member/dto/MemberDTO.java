@@ -18,7 +18,6 @@ public class MemberDTO extends User {
     private Long memberId;
     private String userId;
     private String email;
-    @JsonIgnore
     private String password;
     private String nickname;
     private String phone;
