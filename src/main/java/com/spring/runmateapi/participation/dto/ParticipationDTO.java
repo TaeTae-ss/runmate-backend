@@ -13,4 +13,5 @@ public class ParticipationDTO {
     private Long runningId;
     private Long memberId;
     private LocalDate joinedAt;
+    private String memberNickname; //멤버 닉네임 추가
 }

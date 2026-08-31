@@ -19,6 +19,7 @@ public class ReviewDTO {
     private String content;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate createdAt;
+    private String memberNickname; //리뷰에 닉네임 표시되게 추가
 
     private Long memberId;
     private Long runningId;

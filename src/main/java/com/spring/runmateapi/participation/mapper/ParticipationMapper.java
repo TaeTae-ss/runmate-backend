@@ -10,5 +10,6 @@ import org.mapstruct.Mapping;
 public interface ParticipationMapper {
     @Mapping(source = "running.runningId", target = "runningId")
     @Mapping(source = "member.memberId", target = "memberId")
+    @Mapping(source = "member.nickname", target = "memberNickname")
     ParticipationDTO toDTO(Participation participation);
 }

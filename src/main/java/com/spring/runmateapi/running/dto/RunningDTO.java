@@ -25,6 +25,7 @@ public class RunningDTO {
     private String content;
     private boolean status;
     private Long memberId;
+    private String memberNickname;
 
     //json변환시 문자열로 표시
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")

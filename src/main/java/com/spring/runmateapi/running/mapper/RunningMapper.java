@@ -8,5 +8,6 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface RunningMapper {
     @Mapping(source = "member.memberId", target = "memberId")
+    @Mapping(source = "member.nickname", target = "memberNickname")
     RunningDTO toDTO(Running running);
 }
