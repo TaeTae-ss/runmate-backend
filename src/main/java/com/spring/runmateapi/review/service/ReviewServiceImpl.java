@@ -1,5 +1,7 @@
 package com.spring.runmateapi.review.service;
 
+import com.spring.runmateapi.common.dto.PageRequestDTO;
+import com.spring.runmateapi.common.dto.PageResponseDTO;
 import com.spring.runmateapi.member.entity.Member;
 import com.spring.runmateapi.member.repository.MemberRepository;
 import com.spring.runmateapi.review.dto.ReviewDTO;
@@ -10,6 +12,8 @@ import com.spring.runmateapi.running.entity.Running;
 import com.spring.runmateapi.running.repository.RunningRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -47,14 +51,19 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public List<ReviewDTO> getList(Long runningId) {
+    @Transactional(readOnly = true)
+    public PageResponseDTO<ReviewDTO> getList(Long runningId, PageRequestDTO pageRequestDTO) {
+        Pageable pageable = pageRequestDTO.getPageable("createdAt");
 
-        List<Review> reviewList =
-                reviewRepository.findByRunning_RunningId(runningId);
+        Page<Review> reviewPage =
+                reviewRepository.findByRunning_RunningId(runningId, pageable);
 
-        return reviewList.stream()
+        List<ReviewDTO> dtoList = reviewPage.getContent()
+                .stream()
                 .map(reviewMapper::toDTO)
                 .toList();
+
+        return new PageResponseDTO<ReviewDTO>(dtoList, pageRequestDTO, reviewPage.getTotalElements());
     }
 
     @Override
