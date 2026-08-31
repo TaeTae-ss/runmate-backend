@@ -5,7 +5,7 @@ import com.spring.runmateapi.common.dto.PageRequestDTO;
 import com.spring.runmateapi.common.dto.PageResponseDTO;
 import com.spring.runmateapi.running.dto.RunningDTO;
 import com.spring.runmateapi.running.entity.Running;
-import com.spring.runmateapi.running.repogitory.RunningRepository;
+import com.spring.runmateapi.running.repository.RunningRepository;
 import com.spring.runmateapi.running.service.RunningService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;

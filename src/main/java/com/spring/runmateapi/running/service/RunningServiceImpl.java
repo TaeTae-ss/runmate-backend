@@ -6,12 +6,11 @@ import com.spring.runmateapi.common.dto.PageResponseDTO;
 import com.spring.runmateapi.running.dto.RunningDTO;
 import com.spring.runmateapi.running.entity.Running;
 import com.spring.runmateapi.running.mapper.RunningMapper;
-import com.spring.runmateapi.running.repogitory.RunningRepository;
+import com.spring.runmateapi.running.repository.RunningRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

@@ -1,4 +1,4 @@
-package com.spring.runmateapi.running.repogitory;
+package com.spring.runmateapi.running.repository;
 
 import com.spring.runmateapi.running.entity.Running;
 import org.springframework.data.jpa.repository.JpaRepository;

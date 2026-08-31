@@ -1,4 +1,4 @@
-package com.spring.runmateapi.running.repogitory;
+package com.spring.runmateapi.running.repository;
 
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.impl.JPAQueryFactory;

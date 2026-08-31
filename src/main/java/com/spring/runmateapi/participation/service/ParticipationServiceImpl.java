@@ -6,7 +6,7 @@ import com.spring.runmateapi.participation.entity.Participation;
 import com.spring.runmateapi.participation.mapper.ParticipationMapper;
 import com.spring.runmateapi.participation.repository.ParticipationRepository;
 import com.spring.runmateapi.running.entity.Running;
-import com.spring.runmateapi.running.repogitory.RunningRepository;
+import com.spring.runmateapi.running.repository.RunningRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

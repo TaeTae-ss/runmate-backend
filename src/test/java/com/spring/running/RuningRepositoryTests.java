@@ -1,12 +1,13 @@
 package com.spring.running;
 
 import com.spring.runmateapi.running.entity.Running;
-import com.spring.runmateapi.running.repogitory.RunningRepository;
+import com.spring.runmateapi.running.repository.RunningRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;
 import org.springframework.boot.jdbc.test.autoconfigure.AutoConfigureTestDatabase;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -16,7 +17,7 @@ import org.springframework.test.annotation.Commit;
 import java.time.LocalDate;
 import java.util.List;
 
-@DataJpaTest
+@SpringBootTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Slf4j
 public class RuningRepositoryTests {
