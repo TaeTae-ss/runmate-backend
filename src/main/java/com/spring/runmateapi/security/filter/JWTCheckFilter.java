@@ -125,7 +125,7 @@ public class JWTCheckFilter extends OncePerRequestFilter {
         }
 
         // 회원가입 요청 제외
-        if (path.equals("/runmate/members")) {
+        if (path.equals("/runmate/members") && "POST".equalsIgnoreCase(method) ) {
             return true;
         }
 
@@ -134,8 +134,14 @@ public class JWTCheckFilter extends OncePerRequestFilter {
             return true;
         }
 
-        // GET 요청 검사 제외
-        if ("GET".equalsIgnoreCase(method) && path.startsWith("/runmate")) {
+        // 모임 목록 제외
+        if ("GET".equalsIgnoreCase(method) && path.startsWith("/runmate/runnings")) {
+            return true;
+        }
+
+        // 리뷰 목록 제외
+        if ("GET".equalsIgnoreCase(method)
+                && path.startsWith("/runmate/reviews/running/")) {
             return true;
         }
 

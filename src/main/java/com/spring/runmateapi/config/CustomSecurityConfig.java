@@ -22,7 +22,7 @@ import java.util.Arrays;
 
 @Configuration
 @RequiredArgsConstructor
-//@EnableMethodSecurity
+@EnableMethodSecurity
 public class CustomSecurityConfig {
     @Bean
     PasswordEncoder passwordEncoder() {

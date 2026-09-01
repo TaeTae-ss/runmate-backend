@@ -7,6 +7,7 @@ import com.spring.runmateapi.member.entity.Member;
 import com.spring.runmateapi.member.repository.MemberRepository;
 import com.spring.runmateapi.participation.entity.Participation;
 import com.spring.runmateapi.participation.repository.ParticipationRepository;
+import com.spring.runmateapi.review.repository.ReviewRepository;
 import com.spring.runmateapi.running.dto.RunningDTO;
 import com.spring.runmateapi.running.entity.Running;
 import com.spring.runmateapi.running.mapper.RunningMapper;
@@ -31,6 +32,7 @@ public class RunningServiceImpl implements RunningService {
     private final RunningRepository runningRepository;
     private final RunningMapper runningMapper;
     private final MemberRepository memberRepository;
+    private final ReviewRepository reviewRepository;
     private final ParticipationRepository participationRepository;
 
     @Override
@@ -107,6 +109,7 @@ public class RunningServiceImpl implements RunningService {
     @Transactional
     public void remove(Long runningId) {
         Running running = getRunning(runningId);
+        reviewRepository.deleteByRunning_RunningId(runningId);
         participationRepository.deleteByRunning_RunningId(runningId);
         runningRepository.delete(running);
     }

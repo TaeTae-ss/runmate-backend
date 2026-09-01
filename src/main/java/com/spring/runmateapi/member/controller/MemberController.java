@@ -36,7 +36,7 @@ public class MemberController {
         return ResponseEntity.ok(memberDTO);
     }
 
-    //@PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<PageResponseDTO<MemberDTO>> getList(PageRequestDTO pageRequestDTO) {
         PageResponseDTO<MemberDTO> response = memberService.getList(pageRequestDTO);
