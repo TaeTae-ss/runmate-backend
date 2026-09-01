@@ -7,6 +7,10 @@ import com.spring.runmateapi.member.entity.Member;
 import com.spring.runmateapi.member.entity.MemberRole;
 import com.spring.runmateapi.member.mapper.MemberMapper;
 import com.spring.runmateapi.member.repository.MemberRepository;
+import com.spring.runmateapi.participation.repository.ParticipationRepository;
+import com.spring.runmateapi.review.repository.ReviewRepository;
+import com.spring.runmateapi.running.entity.Running;
+import com.spring.runmateapi.running.repository.RunningRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -22,6 +26,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService {
     private final MemberRepository memberRepository;
+    private final ParticipationRepository participationRepository;
+    private final ReviewRepository reviewRepository;
+    private final RunningRepository runningRepository;
     private final MemberMapper memberMapper;
     private final PasswordEncoder passwordEncoder;
 
@@ -79,7 +86,35 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public void remove(Long memberId) {
+        // 회원 존재 여부 확인
         Member member = getMember(memberId);
+
+        // 1. 회원이 작성한 후기 삭제
+        reviewRepository.deleteByMember_MemberId(memberId);
+
+        // 2. 회원의 참여 데이터 삭제
+        participationRepository.deleteByMember_MemberId(memberId);
+
+        // 3. 회원이 대표자인 모임 조회
+        List<Running> runningList =
+                runningRepository.findByMember_MemberId(memberId);
+
+        // 4. 회원이 만든 모임 삭제
+        for (Running running : runningList) {
+
+            Long runningId = running.getRunningId();
+
+            // 해당 모임의 후기 삭제
+            reviewRepository.deleteByRunning_RunningId(runningId);
+
+            // 해당 모임의 참여 데이터 삭제
+            participationRepository.deleteByRunning_RunningId(runningId);
+
+            // 모임 삭제
+            runningRepository.delete(running);
+        }
+
+        // 5. 회원 삭제
         memberRepository.delete(member);
     }
 }

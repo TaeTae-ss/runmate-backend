@@ -11,4 +11,7 @@ public interface ParticipationRepository extends JpaRepository<Participation, Lo
     List<Participation> findByRunning_RunningId(Long runningId);
     List<Participation> findByMember_MemberId(Long memberId);
     void deleteByRunning_RunningIdAndMember_MemberId(Long runningId, Long memberId);
+
+    void deleteByRunning_RunningId(Long runningId);
+    void deleteByMember_MemberId(Long memberId);
 }
