@@ -104,8 +104,10 @@ public class RunningServiceImpl implements RunningService {
 
     //삭제
     @Override
+    @Transactional
     public void remove(Long runningId) {
         Running running = getRunning(runningId);
+        participationRepository.deleteByRunning_RunningId(runningId);
         runningRepository.delete(running);
     }
 

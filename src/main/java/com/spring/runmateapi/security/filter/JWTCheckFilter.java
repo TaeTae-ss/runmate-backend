@@ -31,7 +31,7 @@ public class JWTCheckFilter extends OncePerRequestFilter {
         log.info("JWTCheckFilter 실행");
 
         String authorizationHeader = request.getHeader("Authorization");
-
+        log.info("Authorization Header: {}", authorizationHeader);
         // Authorization 헤더가 없거나 Bearer 형식이 아니면 인증 실패
         if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
@@ -131,6 +131,11 @@ public class JWTCheckFilter extends OncePerRequestFilter {
 
         // 로그인 요청 제외
         if (path.equals("/runmate/members/login")) {
+            return true;
+        }
+
+        // GET 요청 검사 제외
+        if ("GET".equalsIgnoreCase(method) && path.startsWith("/runmate")) {
             return true;
         }
 

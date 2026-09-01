@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface RunningRepository extends JpaRepository<Running, Long>, RunningRepositoryCustom{
     List<Running> findByMember_MemberId(Long memberId);
+
 }

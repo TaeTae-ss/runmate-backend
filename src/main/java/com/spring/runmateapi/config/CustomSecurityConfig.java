@@ -52,18 +52,18 @@ public class CustomSecurityConfig {
                 // 현재 모든 요청을 허용
                 .authorizeHttpRequests(auth ->
                         auth.anyRequest().permitAll()
-                );
+                )
                 // 접근 권한이 부족한 경우 실행할 Handler 설정
 //                .exceptionHandling(exception ->
 //                        exception.accessDeniedHandler(new CustomAccessDeniedHandler())
 //                )
 //                // JWTCheckFilter를 UsernamePasswordAuthenticationFilter 앞에 추가
-//                .addFilterBefore(
-//                        // Access Token을 검사할 사용자 정의 필터 객체
-//                        new JWTCheckFilter(),
-//                        // JWTCheckFilter가 이 필터보다 먼저 실행되도록 기준 위치를 지정
-//                        UsernamePasswordAuthenticationFilter.class
-//                );
+                .addFilterBefore(
+                        // Access Token을 검사할 사용자 정의 필터 객체
+                        new JWTCheckFilter(),
+                        // JWTCheckFilter가 이 필터보다 먼저 실행되도록 기준 위치를 지정
+                        UsernamePasswordAuthenticationFilter.class
+                );
 
         return http.build();
     }
