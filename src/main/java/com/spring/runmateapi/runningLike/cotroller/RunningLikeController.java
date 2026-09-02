@@ -27,7 +27,7 @@ public class RunningLikeController {
         long likeCount = runningLikeService.getLikeCount(runningId);
         boolean isLike = runningLikeService.isLiked(runningId, memberId);
 
-        return ResponseEntity.ok(Map.of("likeCount", likeCount, "isLike", isLike));
+        return ResponseEntity.ok(Map.of("likeCount", likeCount, "isLiked", isLike));
     }
     // 좋아요 여부 조회
     @GetMapping("/runmate/runnings/{runningId}/like")
