@@ -5,6 +5,7 @@ import com.spring.runmateapi.security.handler.CustomAccessDeniedHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -51,7 +52,32 @@ public class CustomSecurityConfig {
                 .formLogin(form -> form.disable())
                 // 현재 모든 요청을 허용
                 .authorizeHttpRequests(auth ->
-                        auth.anyRequest().permitAll()
+                        auth
+                                // 회원가입, 로그인, 토큰 갱신은 비회원 허용
+                                .requestMatchers(
+                                        "/runmate/members",
+                                        "/runmate/members/login",
+                                        "/runmate/members/refresh"
+                                ).permitAll()
+
+                                // GET은 모두 허용
+                                .requestMatchers(HttpMethod.GET, "/**").permitAll()
+
+                                // 그 외 POST, PUT, DELETE는 로그인 필요
+                                .requestMatchers(
+                                        HttpMethod.POST, "/**"
+                                ).authenticated()
+
+                                .requestMatchers(
+                                        HttpMethod.PUT, "/**"
+                                ).authenticated()
+
+                                .requestMatchers(
+                                        HttpMethod.DELETE, "/**"
+                                ).authenticated()
+
+                                // 나머지 요청은 허용
+                                .anyRequest().permitAll()
                 )
                 // 접근 권한이 부족한 경우 실행할 Handler 설정
 //                .exceptionHandling(exception ->
