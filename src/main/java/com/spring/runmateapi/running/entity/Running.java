@@ -29,6 +29,12 @@ public class Running {
     @Column(nullable = false, length = 50)
     private String place; //장소
 
+    @Column
+    private Double latitude; //위도
+
+    @Column
+    private Double longitude; //경도
+
     @Column(name = "run_date", nullable = false)
     private LocalDate runDate; //러닝날짜
 
@@ -61,10 +67,13 @@ public class Running {
     @Builder
     public Running(String title, String location, String place, LocalDate runDate,
                    String startTime, int runTime, int distance, int maxPeople,
-                   String content, boolean status, LocalDate createdAt, Member member) {
+                   String content, boolean status, LocalDate createdAt, Member member,
+                   Double latitude, Double longitude) {
         this.title = title;
         this.location = location;
         this.place = place;
+        this.latitude = latitude; //위도
+        this.longitude = longitude; //경도
         this.runDate = runDate;
         this.startTime = startTime;
         this.runTime = runTime;
@@ -76,11 +85,13 @@ public class Running {
         this.member = member;
     }
     // 상태값 변경 CRUD
-    public  void changeRunning(String title, String location, String place, LocalDate runDate, String startTime,
+    public  void changeRunning(String title, String location, String place, Double latitude,Double longitude, LocalDate runDate, String startTime,
                                int runTime, int distance, int maxPeople, String content, boolean status) {
         this.title = title;
         this.location = location;
         this.place = place;
+        this.latitude = latitude; //위도
+        this.longitude = longitude; //경도
         this.runDate = runDate;
         this.startTime = startTime;
         this.runTime = runTime;

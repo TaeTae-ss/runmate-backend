@@ -12,6 +12,7 @@ import com.spring.runmateapi.running.dto.RunningDTO;
 import com.spring.runmateapi.running.entity.Running;
 import com.spring.runmateapi.running.mapper.RunningMapper;
 import com.spring.runmateapi.running.repository.RunningRepository;
+import com.spring.runmateapi.runningLike.repository.RunningLikeRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -34,6 +35,7 @@ public class RunningServiceImpl implements RunningService {
     private final MemberRepository memberRepository;
     private final ReviewRepository reviewRepository;
     private final ParticipationRepository participationRepository;
+    private final RunningLikeRepository runningLikeRepository;
 
     @Override
     public Long register(RunningDTO runningDTO) {
@@ -45,6 +47,8 @@ public class RunningServiceImpl implements RunningService {
                 .title(runningDTO.getTitle())
                 .location(runningDTO.getLocation())
                 .place(runningDTO.getPlace())
+                .latitude(runningDTO.getLatitude()) //위도
+                .longitude(runningDTO.getLongitude()) //경도
                 .runDate(runningDTO.getRunDate())
                 .startTime(runningDTO.getStartTime())
                 .runTime(runningDTO.getRunTime())
@@ -94,6 +98,8 @@ public class RunningServiceImpl implements RunningService {
                 runningDTO.getTitle(),
                 runningDTO.getLocation(),
                 runningDTO.getPlace(),
+                runningDTO.getLatitude(),
+                runningDTO.getLongitude(),
                 runningDTO.getRunDate(),
                 runningDTO.getStartTime(),
                 runningDTO.getRunTime(),
@@ -136,10 +142,10 @@ public class RunningServiceImpl implements RunningService {
 
         List<RunningDTO> runningDTOList = runningPage.getContent()
                 .stream()
-                .map(running -> {
-                    RunningDTO runningDTO = runningMapper.toDTO(running);
-                    runningDTO.setStatus(calculateActualStatus(running)); //목록에 똑같이 status값이 반환되게 설정
-                    return  runningDTO;
+                .map(r -> {
+                    RunningDTO dto = runningMapper.toDTO(r);
+                    dto.setLikeCount(runningLikeRepository.countByRunning_RunningId(r.getRunningId())); //목록에 똑같이 status값이 반환되게 설정
+                    return  dto;
                 })
                 .toList();
         return new PageResponseDTO<>(runningDTOList, pageRequestDTO, runningPage.getTotalElements());
