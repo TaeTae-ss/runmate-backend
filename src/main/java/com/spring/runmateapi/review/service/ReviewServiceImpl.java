@@ -4,6 +4,7 @@ import com.spring.runmateapi.common.dto.PageRequestDTO;
 import com.spring.runmateapi.common.dto.PageResponseDTO;
 import com.spring.runmateapi.member.entity.Member;
 import com.spring.runmateapi.member.repository.MemberRepository;
+import com.spring.runmateapi.participation.repository.ParticipationRepository;
 import com.spring.runmateapi.review.dto.ReviewDTO;
 import com.spring.runmateapi.review.entity.Review;
 import com.spring.runmateapi.review.mapper.ReviewMapper;
@@ -17,6 +18,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
@@ -28,6 +33,7 @@ public class ReviewServiceImpl implements ReviewService {
     private final ReviewMapper reviewMapper;
     private final MemberRepository memberRepository;
     private final RunningRepository runningRepository;
+    private final ParticipationRepository participationRepository;
 
     @Override
     public Long register(ReviewDTO reviewDTO) {
@@ -38,6 +44,25 @@ public class ReviewServiceImpl implements ReviewService {
         Running running = runningRepository.findById(reviewDTO.getRunningId())
                 .orElseThrow(() -> new EntityNotFoundException(reviewDTO.getRunningId() + "번 모임이 존재하지 않습니다."));
 
+        // 참여자 검증
+        boolean isParticipation = participationRepository
+                .existsByRunning_RunningIdAndMember_MemberId(
+                        reviewDTO.getRunningId(),
+                        reviewDTO.getMemberId()
+                );
+        if(!isParticipation) {
+            throw new IllegalStateException("참여한 모임만 후기를 작성할 수 있습니다.");
+        }
+
+        // 러닝 날짜가 지났는지 검증 (추가)
+        LocalDateTime runDateTime = LocalDateTime.of(
+                running.getRunDate(),
+                LocalTime.parse(running.getStartTime(), DateTimeFormatter.ofPattern("HH:mm"))
+        );
+        if(LocalDateTime.now().isBefore(runDateTime)) {
+            throw new IllegalStateException("모임이 끝나 후에 후기를 작성할 수 있습니다.");
+        }
+
         Review review = new Review(
                 reviewDTO.getRating(),
                 reviewDTO.getContent(),
@@ -46,7 +71,6 @@ public class ReviewServiceImpl implements ReviewService {
         );
 
         Review savedReview = reviewRepository.save(review);
-
         return savedReview.getReviewId();
     }
 
