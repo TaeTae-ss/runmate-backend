@@ -10,4 +10,7 @@ public interface MemberService {
     PageResponseDTO<MemberDTO> getList(PageRequestDTO pageRequestDTO);
     void modify(MemberDTO memberDTO);
     void remove(Long memberId);
+
+    boolean checkUserId(String userId);
+    boolean checkEmail(String email);
 }

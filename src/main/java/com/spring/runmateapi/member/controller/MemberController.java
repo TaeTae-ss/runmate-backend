@@ -50,6 +50,27 @@ public class MemberController {
         return  ResponseEntity.status(HttpStatus.CREATED).body(Map.of("memberId", memberId));
     }
 
+    // 아이디 중복 확인
+    @GetMapping("/check-userId")
+    public ResponseEntity<Map<String, Boolean>> checkUserId(
+            @RequestParam(name = "userId") String userId) {
+
+        boolean available = memberService.checkUserId(userId);
+
+        return ResponseEntity.ok(Map.of("available", available));
+    }
+
+
+    // 이메일 중복 확인
+    @GetMapping("/check-email")
+    public ResponseEntity<Map<String, Boolean>> checkEmail(
+            @RequestParam(name = "email") String email) {
+
+        boolean available = memberService.checkEmail(email);
+
+        return ResponseEntity.ok(Map.of("available", available));
+    }
+
     @PutMapping("/{memberId}")
     public ResponseEntity<Map<String, String>> modify(@PathVariable(name = "memberId") Long memberId, @RequestBody MemberDTO memberDTO) {
         memberDTO.setMemberId(memberId);
@@ -109,9 +130,10 @@ public class MemberController {
 
         // 새로운 JWT에 저장할 회원 정보
         Map<String, Object> claims = Map.of(
+                "memberId", refreshClaims.get("memberId"),
+                "userId", refreshClaims.get("userId"),
                 "email", refreshClaims.get("email"),
                 "nickname", refreshClaims.get("nickname"),
-                "social", refreshClaims.get("social"),
                 "roleNames", refreshClaims.get("roleNames")
         );
 

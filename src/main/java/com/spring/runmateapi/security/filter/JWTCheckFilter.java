@@ -38,8 +38,8 @@ public class JWTCheckFilter extends OncePerRequestFilter {
             response.setContentType("application/json; charset=UTF-8");
             response.getWriter().write(
                     """
-                    {"msg":"Access Token이 없습니다."}
-                    """
+                            {"msg":"Access Token이 없습니다."}
+                            """
             );
             return;
         }
@@ -99,8 +99,8 @@ public class JWTCheckFilter extends OncePerRequestFilter {
             response.setContentType("application/json; charset=UTF-8");
             response.getWriter().write(
                     """
-                    {"msg":"유효하지 않은 Access Token입니다."}
-                    """
+                            {"msg":"유효하지 않은 Access Token입니다."}
+                            """
             );
             return;
         }
@@ -125,12 +125,24 @@ public class JWTCheckFilter extends OncePerRequestFilter {
         }
 
         // 회원가입 요청 제외
-        if (path.equals("/runmate/members") && "POST".equalsIgnoreCase(method) ) {
+        if (path.equals("/runmate/members") && "POST".equalsIgnoreCase(method)) {
             return true;
         }
 
         // 로그인 요청 제외
         if (path.equals("/runmate/members/login")) {
+            return true;
+        }
+
+        // 아이디 중복확인 요청 제외
+        if (path.equals("/runmate/members/check-userId")
+                && "GET".equalsIgnoreCase(method)) {
+            return true;
+        }
+
+        // 이메일 중복확인 요청 제외
+        if (path.equals("/runmate/members/check-email")
+                && "GET".equalsIgnoreCase(method)) {
             return true;
         }
 

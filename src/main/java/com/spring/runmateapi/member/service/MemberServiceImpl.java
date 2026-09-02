@@ -43,6 +43,16 @@ public class MemberServiceImpl implements MemberService {
         return savedMember.getMemberId();
     }
 
+    @Override
+    public boolean checkUserId(String userId) {
+        return !memberRepository.existsByUserId(userId);
+    }
+
+    @Override
+    public boolean checkEmail(String email) {
+        return !memberRepository.existsByEmail(email);
+    }
+
     private Member getMember(Long memberId) {
         return memberRepository.findById(memberId)
                 .orElseThrow(() ->
