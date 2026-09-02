@@ -62,7 +62,7 @@ public class MemberController {
     }
 
 
-    // 이메일 중복 확인
+    // 이메일 중복 확인 2
     @GetMapping("/check-email")
     public ResponseEntity<Map<String, Boolean>> checkEmail(
             @RequestParam(name = "email") String email) {

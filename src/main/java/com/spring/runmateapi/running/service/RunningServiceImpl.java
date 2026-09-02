@@ -144,6 +144,7 @@ public class RunningServiceImpl implements RunningService {
                 .stream()
                 .map(r -> {
                     RunningDTO dto = runningMapper.toDTO(r);
+                    dto.setStatus(calculateActualStatus(r));
                     dto.setLikeCount(runningLikeRepository.countByRunning_RunningId(r.getRunningId())); //목록에 똑같이 status값이 반환되게 설정
                     return  dto;
                 })
