@@ -18,12 +18,15 @@ public class RunningDTO {
     private String title;
     private String location;
     private String place;
+    private Double latitude; //위도
+    private Double longitude; //경도
     private String startTime;
     private int runTime;
     private int distance;
     private int maxPeople;
     private String content;
     private boolean status;
+    private Long likeCount; // 좋아요 수
     private Long memberId;
     private String memberNickname;
 
