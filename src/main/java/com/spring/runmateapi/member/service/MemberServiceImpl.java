@@ -127,4 +127,16 @@ public class MemberServiceImpl implements MemberService {
         // 5. 회원 삭제
         memberRepository.delete(member);
     }
+
+    @Override
+    public void changeAdminRole(Long memberId, boolean admin) {
+        Member member = getMember(memberId);
+
+        if (admin) {
+            member.addRole(MemberRole.ADMIN);
+        } else {
+            member.removeRole(MemberRole.ADMIN);
+        }
+
+    }
 }

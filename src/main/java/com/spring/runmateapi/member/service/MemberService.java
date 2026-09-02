@@ -13,4 +13,6 @@ public interface MemberService {
 
     boolean checkUserId(String userId);
     boolean checkEmail(String email);
+
+    void changeAdminRole(Long memberId, boolean admin);
 }

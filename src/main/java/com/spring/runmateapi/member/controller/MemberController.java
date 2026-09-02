@@ -4,6 +4,7 @@ import com.spring.runmateapi.common.dto.PageRequestDTO;
 import com.spring.runmateapi.common.dto.PageResponseDTO;
 import com.spring.runmateapi.member.dto.LoginDTO;
 import com.spring.runmateapi.member.dto.MemberDTO;
+import com.spring.runmateapi.member.dto.RoleRequestDTO;
 import com.spring.runmateapi.member.dto.TokenRequestDTO;
 import com.spring.runmateapi.member.service.MemberService;
 import com.spring.runmateapi.util.JWTUtil;
@@ -155,5 +156,17 @@ public class MemberController {
         }
 
         return Map.of("accessToken", newAccessToken, "refreshToken", newRefreshToken);
+    }
+
+    // 관리자 권한 부여
+    @PreAuthorize("hasRole('ADMIN')")
+    @PutMapping("/{memberId}/role")
+    public ResponseEntity<Map<String, String>> changeAdminRole(
+            @PathVariable(name = "memberId") Long memberId,
+            @RequestBody RoleRequestDTO requestDTO) {
+
+        memberService.changeAdminRole(memberId, requestDTO.isAdmin());
+
+        return ResponseEntity.ok(Map.of("result", "success"));
     }
 }
