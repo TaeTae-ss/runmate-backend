@@ -80,10 +80,10 @@ public class CustomSecurityConfig {
                                 .anyRequest().permitAll()
                 )
                 // 접근 권한이 부족한 경우 실행할 Handler 설정
-//                .exceptionHandling(exception ->
-//                        exception.accessDeniedHandler(new CustomAccessDeniedHandler())
-//                )
-//                // JWTCheckFilter를 UsernamePasswordAuthenticationFilter 앞에 추가
+                .exceptionHandling(exception ->
+                        exception.accessDeniedHandler(new CustomAccessDeniedHandler())
+                )
+                // JWTCheckFilter를 UsernamePasswordAuthenticationFilter 앞에 추가
                 .addFilterBefore(
                         // Access Token을 검사할 사용자 정의 필터 객체
                         new JWTCheckFilter(),
