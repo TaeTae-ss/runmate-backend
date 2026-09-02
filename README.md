@@ -36,18 +36,22 @@ KH정보교육원 세미 프로젝트
 | 번호 | HTTP Method | 매핑 주소                                                   | 설명             |
 | -: | :---------: |---------------------------------------------------------|----------------|
 | 1  |     GET     | `/runmate/members`                                      | 관리자 회원조회       |
-| 2  |     POST    | `/runmate/members`                                      | 회원가입           |
-| 3  |     POST    | `/runmate/members/login`                                | 회원 로그인         |
-| 4  |     POST    | `/runmate/members/logout`                               | 회원 로그아웃        |
-| 5  |     GET     | `/runmate/members/{memberid}`                           | 마이페이지 조회       |
+| 2  |     POST    | `/runmate/members`                                      | 회원가입              |
+| 3  |     POST    | `/runmate/members/login`                                | 회원 로그인           |
+| 4  |     POST    | `/runmate/members/logout`                               | 회원 로그아웃         |
+| 5  |     GET     | `/runmate/members/{memberid}`                           | user 마이페이지 조회  |
+| 5  |     GET     | `/runmate/members/{memberid}`                           | admin 마이페이지 조회 |
 | 6  |     GET     | `/runmate/members/{memberid}/participation`             | 회원별 참가 목록 조회   |
+| 5  |     GET     | `/runmate/members/check-userId`                         | 아이디 중복 확인      |
+| 5  |     GET     | `/runmate/members/check-email`                          | 이메일 중복 확인      |
 | 7  |     PUT     | `/runmate/members/{memberid}`                           | 마이페이지 수정       |
+| 8  |     PUT     | `/runmate/members/{memberid}/role`                      | 관리자 권한 부여      |
 | 8  |    DELETE   | `/runmate/members/{memberid}`                           | 회원 탈퇴          |
 | 9  |     GET     | `/runmate/runnings`                                     | 러닝 모임 전체 목록 조회 |
-| 10  |     POST    | `/runmate/runnings`                                     | 러닝 모임 등록       |
-| 11  |     GET     | `/runmate/runnings/{runningId}`                         | 러닝 모임 상세 조회    |
-| 12 |     PUT     | `/runmate/runnings/{runningId}`                         | 러닝 모임 수정       |
-| 13 |    DELETE   | `/runmate/runnings/{runningId}`                         | 러닝 모임 삭제       |
+| 10 |     POST    | `/runmate/runnings`                                     | 러닝 모임 등록        |
+| 11 |     GET     | `/runmate/runnings/{runningId}`                         | 러닝 모임 상세 조회   |
+| 12 |     PUT     | `/runmate/runnings/{runningId}`                         | 러닝 모임 수정        |
+| 13 |    DELETE   | `/runmate/runnings/{runningId}`                         | 러닝 모임 삭제        |
 | 14 |     GET     | `/runmate/runnings/{runningId}/participants`            | 러닝 모임 참가자 조회   |
 | 15 |     POST    | `/runmate/runnings/{runningId}/participants`            | 러닝 모임 참가       |
 | 16 |    DELETE   | `/runmate/runnings/{runningId}/participants/{memberId}` | 러닝 모임 참가 취소    |
@@ -56,6 +60,8 @@ KH정보교육원 세미 프로젝트
 | 19 |     POST    | `/runmate/reviews`                                      | 러닝 모임 후기 등록    |
 | 20 |     PUT     | `/runmate/reviews/{reviewId}`                           | 후기 수정          |
 | 21 |    DELETE   | `/runmate/reviews/{reviewId}`                           | 후기 삭제          |
+| 21 |    POST     | `/runmate/runnings/{runningId}/like`                    | 좋아요 토글        |
+| 21 |    GET      | `/runmate/runnings/{runningId}/like`                    | 좋아요 여부 조회    |
 
 
 
