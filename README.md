@@ -13,8 +13,10 @@
 ![패키지 구조](./img/package.png)
 
 ## 3. Backend 개발 언어
+- IntelliJ
 - Spring boot
 - JPA
+- TOMCAT
 
 ## 4. 요구분석 정의서
 | 요구사항 구분  | 요구사항명       | 요구사항 상세 설명                                                      | ID      | 비고 |
